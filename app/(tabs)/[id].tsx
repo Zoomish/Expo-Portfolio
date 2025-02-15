@@ -1,20 +1,28 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Linking, Platform } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import { useQuery } from '@tanstack/react-query';
-import { BlurView } from 'expo-blur';
-import { useColorScheme } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
-import Markdown from 'react-native-markdown-display';
 import Colors from '@/constants/Colors';
 import {
-  getRepository,
-  getReadme,
-  getLanguages,
   getContributors,
+  getLanguages,
+  getReadme,
+  getRepository,
   type Repository,
 } from '@/services/github';
+import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import { BlurView } from 'expo-blur';
+import { useLocalSearchParams } from 'expo-router';
+import React from 'react';
+import {
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
+import Markdown from 'react-native-markdown-display';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
@@ -71,12 +79,12 @@ export default function RepositoryScreen() {
 
   const markdownStyles = {
     body: { color: colors.text },
-    code_block: { 
+    code_block: {
       backgroundColor: colors.codeBackground,
       padding: 16,
       borderRadius: 8,
     },
-    fence: { 
+    fence: {
       backgroundColor: colors.codeBackground,
       padding: 16,
       borderRadius: 8,
@@ -94,13 +102,17 @@ export default function RepositoryScreen() {
       contentContainerStyle={[
         styles.content,
         Platform.OS === 'web' && styles.webContent,
-      ]}>
+      ]}
+    >
       <AnimatedBlurView
         entering={FadeInDown.delay(100)}
         intensity={80}
-        style={[styles.card, { backgroundColor: colors.background }]}>
+        style={[styles.card, { backgroundColor: colors.background }]}
+      >
         <View style={styles.header}>
-          <Text style={[styles.name, { color: colors.text }]}>{repository.name}</Text>
+          <Text style={[styles.name, { color: colors.text }]}>
+            {repository.name}
+          </Text>
           <View style={styles.stars}>
             <Ionicons name="star" size={16} color={colors.text} />
             <Text style={[styles.starsCount, { color: colors.text }]}>
@@ -108,38 +120,37 @@ export default function RepositoryScreen() {
             </Text>
           </View>
         </View>
-
         {repository.description && (
           <Text style={[styles.description, { color: colors.text }]}>
             {repository.description}
           </Text>
         )}
-
         {repository.topics.length > 0 && (
           <View style={styles.topics}>
             {repository.topics.map((topic) => (
               <View
                 key={topic}
-                style={[styles.topic, { backgroundColor: colors.primary }]}>
+                style={[styles.topic, { backgroundColor: colors.primary }]}
+              >
                 <Text style={styles.topicText}>{topic}</Text>
               </View>
             ))}
           </View>
         )}
-
         {repository.homepage && (
           <Pressable
             style={[styles.button, { backgroundColor: colors.primary }]}
-            onPress={() => openLink(repository.homepage)}>
+            onPress={() => openLink(repository.homepage)}
+          >
             <Ionicons name="globe" size={20} color="white" />
             <Text style={styles.buttonText}>Visit Website</Text>
           </Pressable>
         )}
-
         {languagePercentages.length > 0 && (
           <Animated.View
             entering={FadeInDown.delay(200)}
-            style={styles.languages}>
+            style={styles.languages}
+          >
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
               Languages
             </Text>
@@ -163,21 +174,24 @@ export default function RepositoryScreen() {
             ))}
           </Animated.View>
         )}
-
-        {contributors?.length > 0 && (
+        {contributors && contributors?.length > 0 && (
           <Animated.View
             entering={FadeInDown.delay(300)}
-            style={styles.contributors}>
+            style={styles.contributors}
+          >
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
               Contributors
             </Text>
             <View style={styles.contributorsList}>
-              {contributors.map((contributor) => (
+              {contributors?.map((contributor) => (
                 <Pressable
                   key={contributor.id}
                   onPress={() => openLink(contributor.html_url)}
-                  style={styles.contributor}>
-                  <Text style={[styles.contributorName, { color: colors.text }]}>
+                  style={styles.contributor}
+                >
+                  <Text
+                    style={[styles.contributorName, { color: colors.text }]}
+                  >
                     {contributor.login}
                   </Text>
                   <Text style={[styles.contributions, { color: colors.text }]}>

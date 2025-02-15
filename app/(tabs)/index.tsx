@@ -1,13 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable, Linking } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
-import { useQuery } from '@tanstack/react-query';
-import { Ionicons } from '@expo/vector-icons';
-import { useColorScheme } from 'react-native';
-import Colors from '@/constants/Colors';
 import LiquidBackground from '@/components/LiquidBackground';
+import Colors from '@/constants/Colors';
 import { getUser } from '@/services/github';
+import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import {
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -34,34 +40,43 @@ export default function HomeScreen() {
         style={StyleSheet.absoluteFill}
       />
       <LiquidBackground />
-      
+
       <BlurView intensity={80} style={styles.content}>
         {isLoading ? (
           <Text style={[styles.text, { color: colors.text }]}>Loading...</Text>
         ) : (
           <>
-            <Text style={[styles.name, { color: colors.text }]}>{user?.name}</Text>
-            <Text style={[styles.title, { color: colors.text }]}>Frontend Developer</Text>
-            <Text style={[styles.bio, { color: colors.text }]}>{user?.bio}</Text>
-            
+            <Text style={[styles.name, { color: colors.text }]}>
+              {user?.name}
+            </Text>
+            <Text style={[styles.title, { color: colors.text }]}>
+              Frontend Developer
+            </Text>
+            <Text style={[styles.bio, { color: colors.text }]}>
+              {user?.bio}
+            </Text>
+
             <View style={styles.buttons}>
               <Pressable
                 style={[styles.button, { backgroundColor: colors.primary }]}
-                onPress={() => openLink(`https://github.com/${user?.login}`)}>
+                onPress={() => openLink(`https://github.com/${user?.login}`)}
+              >
                 <Ionicons name="logo-github" size={24} color="white" />
                 <Text style={styles.buttonText}>GitHub</Text>
               </Pressable>
-              
+
               <Pressable
                 style={[styles.button, { backgroundColor: colors.secondary }]}
-                onPress={() => openLink('https://t.me/Zoomish')}>
+                onPress={() => openLink('https://t.me/Zoomish')}
+              >
                 <Ionicons name="paper-plane" size={24} color="white" />
                 <Text style={styles.buttonText}>Telegram</Text>
               </Pressable>
-              
+
               <Pressable
                 style={[styles.button, { backgroundColor: colors.accent }]}
-                onPress={() => openLink('https://t.me/ZoomishBot')}>
+                onPress={() => openLink('https://t.me/ZoomishBot')}
+              >
                 <Ionicons name="logo-android" size={24} color="white" />
                 <Text style={styles.buttonText}>Bot</Text>
               </Pressable>

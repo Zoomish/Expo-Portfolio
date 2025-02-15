@@ -1,20 +1,27 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, useWindowDimensions, Platform } from 'react-native';
-import { Link } from 'expo-router';
+import Colors from '@/constants/Colors';
+import { getRepositories, type Repository } from '@/services/github';
+import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { BlurView } from 'expo-blur';
-import { useColorScheme } from 'react-native';
-import Animated, { 
-  FadeInDown, 
+import { Link } from 'expo-router';
+import React from 'react';
+import {
+  FlatList,
+  Platform,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  useWindowDimensions,
+  View,
+} from 'react-native';
+import Animated, {
+  FadeInDown,
   FadeOut,
-  withSpring,
   useAnimatedStyle,
   useSharedValue,
   withSequence,
+  withSpring,
 } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
-import Colors from '@/constants/Colors';
-import { getRepositories, type Repository } from '@/services/github';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Link);
 
@@ -32,10 +39,7 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
   };
 
   const onPressOut = () => {
-    scale.value = withSequence(
-      withSpring(1.05),
-      withSpring(1)
-    );
+    scale.value = withSequence(withSpring(1.05), withSpring(1));
   };
 
   return (
@@ -45,12 +49,16 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
       exiting={FadeOut}
       style={[styles.cardWrapper, animatedStyle]}
       onPressIn={onPressIn}
-      onPressOut={onPressOut}>
+      onPressOut={onPressOut}
+    >
       <BlurView
         intensity={80}
-        style={[styles.card, { backgroundColor: colors.background }]}>
+        style={[styles.card, { backgroundColor: colors.background }]}
+      >
         <View style={styles.cardHeader}>
-          <Text style={[styles.repoName, { color: colors.text }]}>{item.name}</Text>
+          <Text style={[styles.repoName, { color: colors.text }]}>
+            {item.name}
+          </Text>
           <View style={styles.stars}>
             <Ionicons name="star" size={16} color={colors.text} />
             <Text style={[styles.starsCount, { color: colors.text }]}>
@@ -58,32 +66,34 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
             </Text>
           </View>
         </View>
-        
+
         {item.description && (
-          <Text 
+          <Text
             style={[styles.description, { color: colors.text }]}
-            numberOfLines={2}>
+            numberOfLines={2}
+          >
             {item.description}
           </Text>
         )}
-        
+
         {item.topics.length > 0 && (
           <View style={styles.topics}>
             {item.topics.slice(0, 3).map((topic) => (
-              <View 
+              <View
                 key={topic}
-                style={[styles.topic, { backgroundColor: colors.primary }]}>
+                style={[styles.topic, { backgroundColor: colors.primary }]}
+              >
                 <Text style={styles.topicText}>{topic}</Text>
               </View>
             ))}
           </View>
         )}
-        
+
         <View style={styles.footer}>
           {item.language && (
             <View style={styles.language}>
-              <View 
-                style={[styles.languageDot, { backgroundColor: colors.accent }]} 
+              <View
+                style={[styles.languageDot, { backgroundColor: colors.accent }]}
               />
               <Text style={[styles.languageText, { color: colors.text }]}>
                 {item.language}
@@ -102,8 +112,12 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
 export default function RepositoriesScreen() {
   const { width } = useWindowDimensions();
   const isDesktop = Platform.OS === 'web' && width >= 768;
-  
-  const { data: repositories, isLoading, error } = useQuery({
+
+  const {
+    data: repositories,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['repositories'],
     queryFn: getRepositories,
   });
@@ -139,10 +153,7 @@ export default function RepositoriesScreen() {
         key={isDesktop ? 'desktop' : 'mobile'}
         numColumns={isDesktop ? 2 : 1}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={[
-          styles.list,
-          isDesktop && styles.desktopList
-        ]}
+        contentContainerStyle={[styles.list, isDesktop && styles.desktopList]}
         columnWrapperStyle={isDesktop && styles.row}
       />
     </View>

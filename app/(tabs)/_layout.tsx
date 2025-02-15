@@ -1,7 +1,7 @@
-import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { useColorScheme } from 'react-native';
 import Colors from '@/constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -17,7 +17,8 @@ export default function TabLayout() {
           shadowOpacity: 0,
         },
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
