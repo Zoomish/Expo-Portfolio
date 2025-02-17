@@ -61,7 +61,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="repositories"
+        name="repositories/index"
         options={{
           title: 'Repositories',
           tabBarIcon: ({ color, size }) => (
@@ -70,7 +70,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="[id]"
+        name="repositories/[id]"
         options={{
           href: null,
         }}
