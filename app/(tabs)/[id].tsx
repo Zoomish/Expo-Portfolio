@@ -190,7 +190,7 @@ export default function RepositoryScreen() {
             </Animated.View>
           )}
 
-          {contributors?.length > 0 && (
+          {contributors && contributors?.length > 0 && (
             <Animated.View
               entering={FadeInDown.delay(300)}
               style={styles.contributors}
