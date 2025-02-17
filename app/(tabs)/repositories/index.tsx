@@ -173,7 +173,7 @@ export default function RepositoriesScreen() {
           <RepositoryCard
             item={item}
             index={index}
-            onPress={() => router.push(`/${item.name}`)}
+            onPress={() => router.push(`/repositories/${item.name}`)}
           />
         )}
         key={isDesktop ? 'desktop' : 'mobile'}
