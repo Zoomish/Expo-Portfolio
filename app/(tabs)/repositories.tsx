@@ -31,11 +31,11 @@ function RepositoryCard({
   item,
   index,
   onPress,
-}: {
+}: Readonly<{
   item: Repository;
   index: number;
   onPress: () => void;
-}) {
+}>) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const scale = useSharedValue(1);
