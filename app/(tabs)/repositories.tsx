@@ -3,11 +3,13 @@ import { getRepositories, type Repository } from '@/services/github';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { BlurView } from 'expo-blur';
-import { Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import {
   FlatList,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   useColorScheme,
@@ -23,9 +25,17 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-const AnimatedPressable = Animated.createAnimatedComponent(Link);
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-function RepositoryCard({ item, index }: { item: Repository; index: number }) {
+function RepositoryCard({
+  item,
+  index,
+  onPress,
+}: {
+  item: Repository;
+  index: number;
+  onPress: () => void;
+}) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const scale = useSharedValue(1);
@@ -44,7 +54,7 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
 
   return (
     <AnimatedPressable
-      href={`/${item.name}`}
+      onPress={onPress}
       entering={FadeInDown.delay(index * 100)}
       exiting={FadeOut}
       style={[styles.cardWrapper, animatedStyle]}
@@ -93,7 +103,13 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
           {item.language && (
             <View style={styles.language}>
               <View
-                style={[styles.languageDot, { backgroundColor: colors.accent }]}
+                style={[
+                  styles.languageDot,
+                  {
+                    backgroundColor:
+                      colors.languageColors[item.language] || colors.accent,
+                  },
+                ]}
               />
               <Text style={[styles.languageText, { color: colors.text }]}>
                 {item.language}
@@ -112,6 +128,9 @@ function RepositoryCard({ item, index }: { item: Repository; index: number }) {
 export default function RepositoriesScreen() {
   const { width } = useWindowDimensions();
   const isDesktop = Platform.OS === 'web' && width >= 768;
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
+  const router = useRouter();
 
   const {
     data: repositories,
@@ -121,9 +140,6 @@ export default function RepositoriesScreen() {
     queryKey: ['repositories'],
     queryFn: getRepositories,
   });
-
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
 
   if (isLoading) {
     return (
@@ -144,16 +160,30 @@ export default function RepositoriesScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={styles.container}>
+      <LinearGradient
+        colors={colors.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
       <FlatList
         data={repositories}
         renderItem={({ item, index }) => (
-          <RepositoryCard item={item} index={index} />
+          <RepositoryCard
+            item={item}
+            index={index}
+            onPress={() => router.push(`/${item.name}`)}
+          />
         )}
         key={isDesktop ? 'desktop' : 'mobile'}
         numColumns={isDesktop ? 2 : 1}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={[styles.list, isDesktop && styles.desktopList]}
+        contentContainerStyle={[
+          styles.list,
+          isDesktop && styles.desktopList,
+          { marginTop: isDesktop ? 80 : 20 },
+        ]}
         columnWrapperStyle={isDesktop && styles.row}
       />
     </View>
@@ -182,14 +212,12 @@ const styles = StyleSheet.create({
   },
   cardWrapper: {
     flex: 1,
-    maxWidth: Platform.select({ web: '100%', default: undefined }),
   },
   card: {
     padding: 16,
     borderRadius: 16,
     gap: 12,
-    height: '100%',
-    width: '100%',
+    minHeight: 200,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import {
@@ -97,122 +98,143 @@ export default function RepositoryScreen() {
   };
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={[
-        styles.content,
-        Platform.OS === 'web' && styles.webContent,
-      ]}
-    >
-      <AnimatedBlurView
-        entering={FadeInDown.delay(100)}
-        intensity={80}
-        style={[styles.card, { backgroundColor: colors.background }]}
+    <View style={styles.container}>
+      <LinearGradient
+        colors={colors.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.content,
+          Platform.OS === 'web' && styles.webContent,
+        ]}
       >
-        <View style={styles.header}>
-          <Text style={[styles.name, { color: colors.text }]}>
-            {repository.name}
-          </Text>
-          <View style={styles.stars}>
-            <Ionicons name="star" size={16} color={colors.text} />
-            <Text style={[styles.starsCount, { color: colors.text }]}>
-              {repository.stargazers_count}
+        <AnimatedBlurView
+          entering={FadeInDown.delay(100)}
+          intensity={80}
+          style={[styles.card, { backgroundColor: colors.background }]}
+        >
+          <View style={styles.header}>
+            <Text style={[styles.name, { color: colors.text }]}>
+              {repository.name}
             </Text>
+            <View style={styles.stars}>
+              <Ionicons name="star" size={16} color={colors.text} />
+              <Text style={[styles.starsCount, { color: colors.text }]}>
+                {repository.stargazers_count}
+              </Text>
+            </View>
           </View>
-        </View>
-        {repository.description && (
-          <Text style={[styles.description, { color: colors.text }]}>
-            {repository.description}
-          </Text>
-        )}
-        {repository.topics.length > 0 && (
-          <View style={styles.topics}>
-            {repository.topics.map((topic) => (
-              <View
-                key={topic}
-                style={[styles.topic, { backgroundColor: colors.primary }]}
-              >
-                <Text style={styles.topicText}>{topic}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-        {repository.homepage && (
-          <Pressable
-            style={[styles.button, { backgroundColor: colors.primary }]}
-            onPress={() => openLink(repository.homepage)}
-          >
-            <Ionicons name="globe" size={20} color="white" />
-            <Text style={styles.buttonText}>Visit Website</Text>
-          </Pressable>
-        )}
-        {languagePercentages.length > 0 && (
-          <Animated.View
-            entering={FadeInDown.delay(200)}
-            style={styles.languages}
-          >
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              Languages
+
+          {repository.description && (
+            <Text style={[styles.description, { color: colors.text }]}>
+              {repository.description}
             </Text>
-            {languagePercentages.map(({ name, percentage }) => (
-              <View key={name} style={styles.languageRow}>
-                <View style={styles.languageInfo}>
-                  <View
-                    style={[
-                      styles.languageDot,
-                      { backgroundColor: colors.accent },
-                    ]}
-                  />
-                  <Text style={[styles.languageName, { color: colors.text }]}>
-                    {name}
-                  </Text>
-                </View>
-                <Text style={[styles.percentage, { color: colors.text }]}>
-                  {percentage}%
-                </Text>
-              </View>
-            ))}
-          </Animated.View>
-        )}
-        {contributors && contributors?.length > 0 && (
-          <Animated.View
-            entering={FadeInDown.delay(300)}
-            style={styles.contributors}
-          >
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              Contributors
-            </Text>
-            <View style={styles.contributorsList}>
-              {contributors?.map((contributor) => (
-                <Pressable
-                  key={contributor.id}
-                  onPress={() => openLink(contributor.html_url)}
-                  style={styles.contributor}
+          )}
+
+          {repository.topics.length > 0 && (
+            <View style={styles.topics}>
+              {repository.topics.map((topic) => (
+                <View
+                  key={topic}
+                  style={[styles.topic, { backgroundColor: colors.primary }]}
                 >
-                  <Text
-                    style={[styles.contributorName, { color: colors.text }]}
-                  >
-                    {contributor.login}
-                  </Text>
-                  <Text style={[styles.contributions, { color: colors.text }]}>
-                    {contributor.contributions} commits
-                  </Text>
-                </Pressable>
+                  <Text style={styles.topicText}>{topic}</Text>
+                </View>
               ))}
             </View>
-          </Animated.View>
-        )}
+          )}
 
-        {readme && (
-          <Animated.View entering={FadeInDown.delay(400)}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              README
-            </Text>
-            <Markdown style={markdownStyles}>{readme}</Markdown>
-          </Animated.View>
-        )}
-      </AnimatedBlurView>
-    </ScrollView>
+          {repository.homepage && (
+            <Pressable
+              style={[styles.button, { backgroundColor: colors.primary }]}
+              onPress={() => openLink(repository.homepage)}
+            >
+              <Ionicons name="globe" size={20} color="white" />
+              <Text style={styles.buttonText}>Visit Website</Text>
+            </Pressable>
+          )}
+
+          {languagePercentages.length > 0 && (
+            <Animated.View
+              entering={FadeInDown.delay(200)}
+              style={styles.languages}
+            >
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                Languages
+              </Text>
+              {languagePercentages.map(({ name, percentage }) => (
+                <View key={name} style={styles.languageRow}>
+                  <View style={styles.languageInfo}>
+                    <View
+                      style={[
+                        styles.languageDot,
+                        {
+                          backgroundColor:
+                            colors.languageColors[name] || colors.accent,
+                        },
+                      ]}
+                    />
+                    <Text style={[styles.languageName, { color: colors.text }]}>
+                      {name}
+                    </Text>
+                  </View>
+                  <Text style={[styles.percentage, { color: colors.text }]}>
+                    {percentage}%
+                  </Text>
+                </View>
+              ))}
+            </Animated.View>
+          )}
+
+          {contributors?.length > 0 && (
+            <Animated.View
+              entering={FadeInDown.delay(300)}
+              style={styles.contributors}
+            >
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                Contributors
+              </Text>
+              <View style={styles.contributorsList}>
+                {contributors.map((contributor) => (
+                  <Pressable
+                    key={contributor.id}
+                    onPress={() => openLink(contributor.html_url)}
+                    style={[
+                      styles.contributor,
+                      { backgroundColor: colors.codeBackground },
+                    ]}
+                  >
+                    <Text
+                      style={[styles.contributorName, { color: colors.text }]}
+                    >
+                      {contributor.login}
+                    </Text>
+                    <Text
+                      style={[styles.contributions, { color: colors.text }]}
+                    >
+                      {contributor.contributions} commits
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            </Animated.View>
+          )}
+
+          {readme && (
+            <Animated.View entering={FadeInDown.delay(400)}>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                README
+              </Text>
+              <Markdown style={markdownStyles}>{readme}</Markdown>
+            </Animated.View>
+          )}
+        </AnimatedBlurView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -335,7 +357,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.05)',
     padding: 12,
     borderRadius: 8,
   },

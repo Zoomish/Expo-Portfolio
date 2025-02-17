@@ -1,10 +1,12 @@
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Platform, useColorScheme, useWindowDimensions } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { width } = useWindowDimensions();
+  const isDesktop = Platform.OS === 'web' && width >= 768;
 
   return (
     <Tabs
@@ -15,8 +17,18 @@ export default function TabLayout() {
           borderTopWidth: 0,
           elevation: 0,
           shadowOpacity: 0,
+          position: isDesktop ? 'absolute' : 'relative',
+          top: isDesktop ? 0 : undefined,
+          bottom: isDesktop ? undefined : 0,
+          left: 0,
+          right: 0,
+          height: isDesktop ? 60 : undefined,
+          zIndex: 100,
         },
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarLabelStyle: {
+          fontSize: isDesktop ? 14 : 12,
+        },
       }}
     >
       <Tabs.Screen
