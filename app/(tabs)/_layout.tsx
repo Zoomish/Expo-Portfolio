@@ -22,13 +22,33 @@ export default function TabLayout() {
           bottom: isDesktop ? undefined : 0,
           left: 0,
           right: 0,
-          height: isDesktop ? 60 : undefined,
+          height: Platform.select({
+            ios: undefined,
+            android: 60,
+            web: isDesktop ? 60 : undefined,
+          }),
+          paddingBottom: Platform.select({
+            ios: undefined,
+            android: 10,
+            web: isDesktop ? 0 : undefined,
+          }),
           zIndex: 100,
         },
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
         tabBarLabelStyle: {
           fontSize: isDesktop ? 14 : 12,
+          marginBottom: Platform.select({
+            android: 0,
+            ios: undefined,
+            web: isDesktop ? 0 : undefined,
+          }),
         },
+        tabBarIconStyle: Platform.select({
+          android: {
+            marginTop: 4,
+          },
+        }),
       }}
     >
       <Tabs.Screen
