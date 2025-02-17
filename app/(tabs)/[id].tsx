@@ -244,7 +244,7 @@ export default function RepositoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: isDesktop ? 40 : 0,
+    paddingTop: isDesktop ? 40 : 0,
   },
   content: {
     padding: 16,
