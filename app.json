@@ -36,6 +36,8 @@
     "updates": {
       "url": "https://u.expo.dev/a1e8f869-88ed-4641-956c-9e22c0ecc6ff"
     },
-    "android": {}
+    "android": {
+      "package": "com.zoomish.zoomishportfolio"
+    }
   }
 }
