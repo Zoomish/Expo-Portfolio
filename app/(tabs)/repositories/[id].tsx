@@ -20,15 +20,13 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
-const { width } = useWindowDimensions();
-const isDesktop = Platform.OS === 'web' && width >= 768;
+const isDesktop = Platform.OS === 'web';
 
 export default function RepositoryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
