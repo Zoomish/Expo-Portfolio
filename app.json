@@ -16,9 +16,26 @@
       "output": "single",
       "favicon": "./assets/images/icon.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a1e8f869-88ed-4641-956c-9e22c0ecc6ff"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a1e8f869-88ed-4641-956c-9e22c0ecc6ff"
+    },
+    "android": {}
   }
 }
