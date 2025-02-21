@@ -25,7 +25,7 @@ export default function TabLayout() {
           height: Platform.select({
             ios: undefined,
             android: 60,
-            web: isDesktop ? 60 : undefined,
+            web: 60,
           }),
           paddingBottom: Platform.select({
             ios: undefined,
