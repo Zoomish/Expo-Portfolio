@@ -83,16 +83,19 @@ export default function RepositoryScreen() {
     body: { color: colors.text },
     code_block: {
       backgroundColor: colors.codeBackground,
+      color: '#fff',
       padding: 16,
       borderRadius: 8,
     },
     fence: {
       backgroundColor: colors.codeBackground,
+      color: '#fff',
       padding: 16,
       borderRadius: 8,
     },
     code_inline: {
       backgroundColor: colors.codeBackground,
+      color: '#fff',
       padding: 4,
       borderRadius: 4,
     },
@@ -209,14 +212,10 @@ export default function RepositoryScreen() {
                       { backgroundColor: colors.codeBackground },
                     ]}
                   >
-                    <Text
-                      style={[styles.contributorName, { color: colors.text }]}
-                    >
+                    <Text style={[styles.contributorName, { color: '#fff' }]}>
                       {contributor.login}
                     </Text>
-                    <Text
-                      style={[styles.contributions, { color: colors.text }]}
-                    >
+                    <Text style={[styles.contributions, { color: '#fff' }]}>
                       {contributor.contributions} commits
                     </Text>
                   </Pressable>
@@ -227,7 +226,7 @@ export default function RepositoryScreen() {
 
           {readme && (
             <Animated.View entering={FadeInDown.delay(400)}>
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              <Text style={[styles.sectionTitle, { color: '#fff' }]}>
                 README
               </Text>
               <Markdown style={markdownStyles}>{readme}</Markdown>
