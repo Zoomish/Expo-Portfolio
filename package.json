@@ -1,7 +1,8 @@
 {
-  "name": "bolt-expo-starter",
+  "name": "zoomish-portfolio",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "author": "Zoomish",
   "private": true,
   "scripts": {
     "dev": "expo start",
