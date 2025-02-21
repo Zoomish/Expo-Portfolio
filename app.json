@@ -38,7 +38,11 @@
     },
     "android": {
       "package": "com.zoomish.zoomishportfolio",
-      "usesCleartextTraffic": true
+      "usesCleartextTraffic": true,
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
     }
   }
 }
