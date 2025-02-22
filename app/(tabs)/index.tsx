@@ -97,9 +97,6 @@ export default function HomeScreen() {
             <Text style={[styles.title, { color: colors.text }]}>
               Frontend Developer
             </Text>
-            <Text style={[styles.title, { color: colors.text }]}>
-              {process.env.EXPO_PUBLIC_GITHUB_TOKEN}
-            </Text>
             <Text style={[styles.bio, { color: colors.text }]}>
               {user?.bio}
             </Text>
